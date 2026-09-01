@@ -4,7 +4,7 @@ export default function DashboardHeader({ onlineCount, totalCount }) {
   return (
     <div className="flex justify-between items-start mb-6">
       <div>
-        <h1 className="text-4xl font-black tracking-tight text-fg">Fleet Pulse</h1>
+        <h1 className="text-4xl font-black tracking-tight text-fg">L1 monitoring tool</h1>
         <p className="text-muted text-sm mt-1">
           Live telemetry from every connected sensor node.
         </p>
