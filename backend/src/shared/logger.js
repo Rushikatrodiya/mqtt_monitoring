@@ -1,6 +1,4 @@
 // Simple structured logger wrapper
-// For a prototype, console is fine, but this provides a seam for Pino/Winston later.
-
 const logger = {
   info: (message, meta = {}) => {
     console.log(JSON.stringify({ level: 'info', message, timestamp: new Date().toISOString(), ...meta }));

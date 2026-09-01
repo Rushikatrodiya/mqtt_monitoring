@@ -188,7 +188,7 @@ To add a new device, just add an entry here. The watchdog will automatically mon
 | MQTT Broker | Mosquitto (Docker) |
 | Backend | Node.js, Express 5, MQTT.js |
 | Email Alerts | Nodemailer |
-| Logging | Winston |
+| Logging | Custom structured logger (`console.log` wrapper) |
 | Frontend | React 19, Vite |
 | Data Fetching | TanStack React Query |
 | Charts | Recharts |
