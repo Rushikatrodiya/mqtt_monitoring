@@ -85,49 +85,38 @@ Frontend → GET /api/devices        → device.service.js → device.store.js +
 ## 🚀 Getting Started
 
 ### Prerequisites
-- [Node.js](https://nodejs.org/) v18+
-- [Docker Desktop](https://www.docker.com/) (for Mosquitto broker)
+- [Docker Desktop](https://www.docker.com/)
 
 ---
 
-### 1. Start the MQTT Broker
+### 1. Set up environment variables
 
 ```bash
 cd backend
-docker-compose up -d
+cp .env.example .env
+# Fill in your SMTP credentials in .env if you want email alerts
 ```
-
-This starts a Mosquitto MQTT broker on `mqtt://localhost:1883`.
 
 ---
 
-### 2. Start the Backend
+### 2. Start everything
 
 ```bash
 cd backend
-npm install
-npm run dev
+docker compose up
 ```
 
-API will be available at `http://localhost:3000`.
+This single command starts **all three services**:
 
-**Backend `.env` file** (`backend/.env`):
-```env
-PORT=3000
-MQTT_URL=mqtt://localhost:1883
-
-# Email alerts (optional)
-SMTP_HOST=sandbox.smtp.mailtrap.io
-SMTP_PORT=2525
-SMTP_USER=your_mailtrap_user
-SMTP_PASS=your_mailtrap_pass
-ALERT_EMAIL_FROM=alerts@example.com
-ALERT_EMAIL_TO=admin@example.com
-```
+| Container | What it does |
+|---|---|
+| `mqtt_broker` | Mosquitto MQTT broker on port `1883` |
+| `mqtt_backend` | Express API on `http://localhost:3000` |
+| `mqtt_simulator` | Publishes fake sensor data so devices show as online |
 
 ---
 
-### 3. Start the Frontend
+### 3. Open the frontend
 
 ```bash
 cd frontend
@@ -135,18 +124,7 @@ npm install
 npm run dev
 ```
 
-Dashboard will open at `http://localhost:5173`.
-
----
-
-### 4. Run the Device Simulator (optional)
-
-```bash
-cd backend
-node simulator/simulate-devices.js
-```
-
-Simulates `sensor_001`, `sensor_002`, and `sensor_003` publishing MQTT messages at their configured intervals.
+Dashboard available at `http://localhost:5173`.
 
 ---
 
