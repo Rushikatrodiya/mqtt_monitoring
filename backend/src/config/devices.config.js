@@ -1,6 +1,3 @@
-// The single source of truth for which devices exist and their expected intervals.
-// Replacing a DB-backed device table for this prototype.
-
 const devices = [
   {
     deviceId: 'sensor_001',

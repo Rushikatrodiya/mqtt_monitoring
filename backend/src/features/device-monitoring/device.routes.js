@@ -5,7 +5,6 @@ const devicesConfig = require('../../config/devices.config');
 
 const router = express.Router();
 
-// GET /api/devices
 router.get('/', (req, res) => {
   const statuses = deviceService.getAllStatuses();
   // Merge type from config into each device status
@@ -19,7 +18,6 @@ router.get('/', (req, res) => {
   });
 });
 
-// GET /api/devices/history
 router.get('/history', (req, res) => {
   res.status(200).json({
     status: 'success',
