@@ -103,7 +103,7 @@ cp .env.example .env
 
 ```bash
 cd backend
-docker compose up
+docker compose up -d --build
 ```
 
 This single command starts **all three services**:
