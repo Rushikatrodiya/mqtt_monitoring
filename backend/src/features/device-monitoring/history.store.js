@@ -19,4 +19,8 @@ function getHistory() {
   return [...history];
 }
 
-module.exports = { recordSnapshot, getHistory };
+function clearHistory() {
+  history.length = 0;
+}
+
+module.exports = { recordSnapshot, getHistory, clearHistory };
