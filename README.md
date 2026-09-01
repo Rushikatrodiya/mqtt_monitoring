@@ -53,7 +53,6 @@ MQTT_Monitoring/
     │   ├── components/
     │   │   ├── Dashboard.jsx       # Main layout container
     │   │   ├── DashboardHeader.jsx # Title, live clock, online/total stats
-    │   │   ├── BrokerStatus.jsx    # Broker connection indicator
     │   │   ├── FleetHealthChart.jsx# Recharts area chart — online nodes over time
     │   │   ├── DeviceTable.jsx     # Table shell with column headers
     │   │   ├── DeviceRow.jsx       # Individual device row with status
@@ -134,6 +133,7 @@ Dashboard available at `http://localhost:5173`.
 |--------|----------|-------------|
 | `GET` | `/api/devices` | Returns all devices with status, lastSeenAt, type |
 | `GET` | `/api/devices/history` | Returns fleet health history (for chart) |
+| `POST` | `/api/devices/reset` | Resets all device statuses + clears chart history (demo use) |
 
 ### Example response — `GET /api/devices`
 
@@ -165,7 +165,37 @@ Dashboard available at `http://localhost:5173`.
 
 ---
 
+## 🔄 Reset Demo
+
+### Why does the Pressure Sensor go OFFLINE on its own?
+
+This is **intentional**. The simulator (`simulate-devices.js`) is configured so that `sensor_003` (Pressure Sensor) **stops publishing after its 4th message** — roughly 20 seconds after startup:
+
+```js
+{ deviceId: 'sensor_003', interval: 5000, silentAfter: 20000 }
+// publishes every 5s, stops after 20s → 4 messages then silence
+```
+
+This simulates a real-world scenario where a device goes unresponsive mid-session. The watchdog detects the silence, marks it **OFFLINE**, and (if configured) sends an alert email — demonstrating the core monitoring behaviour of the system.
+
+### The "Reset Demo" button
+
+Because `sensor_003` permanently stops publishing, repeated live demos would always end with a stuck OFFLINE device. To avoid restarting Docker between demos, the dashboard includes a **Reset Demo** button in the top-right of the header.
+
+**What it does when clicked:**
+
+| Action | Details |
+|--------|---------|
+| ✅ Clears fleet health chart | Removes all historical snapshots so the chart starts fresh |
+| ✅ Resets all device statuses | Sets every device back to `ONLINE` with `lastSeenAt = now` |
+| ✅ Refreshes the UI instantly | Both the chart and device table reload immediately |
+
+> ⚠️ **For testing / demo purposes only.** It does not restart the simulator — `sensor_003` will go silent again after another 4 publishes (~20 seconds). Simply click Reset Demo again before your next demo run.
+
+---
+
 ## 🔧 Device Configuration
+
 
 Devices are registered in `backend/src/config/devices.config.js`:
 

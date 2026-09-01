@@ -13,3 +13,8 @@ export const fetchHistory = async () => {
   const response = await apiClient.get('/devices/history');
   return response.data.data;
 };
+
+export const resetDemo = async () => {
+  const response = await apiClient.post('/devices/reset');
+  return response.data;
+};

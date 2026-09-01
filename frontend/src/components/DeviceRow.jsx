@@ -26,8 +26,8 @@ export default function DeviceRow({ device, isLastRow }) {
 
       {/* Device Name + Type */}
       <div>
-        <div className="font-bold text-base text-fg tracking-tight">{device.deviceId}</div>
-        <div className="text-sm text-muted mt-1">{device.type}</div>
+        <div className="font-bold text-base text-fg tracking-tight">{device.name}</div>
+        <div className="text-sm text-muted mt-1">{device.type} · <span className="font-mono text-xs">{device.deviceId}</span></div>
       </div>
 
       {/* Last Seen */}
