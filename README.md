@@ -1,4 +1,4 @@
-# Fleet Pulse — MQTT Device Monitoring Dashboard
+# L1 monitoring tool — MQTT Device Monitoring Dashboard
 
 A real-time IoT sensor monitoring system built with **Node.js + Express** (backend) and **React + Vite** (frontend). Devices publish telemetry via MQTT; a watchdog detects stale/offline devices and triggers email alerts; the frontend polls the REST API and renders a live dashboard.
 
