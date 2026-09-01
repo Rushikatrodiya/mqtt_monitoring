@@ -1,0 +1,19 @@
+// Simple structured logger wrapper
+// For a prototype, console is fine, but this provides a seam for Pino/Winston later.
+
+const logger = {
+  info: (message, meta = {}) => {
+    console.log(JSON.stringify({ level: 'info', message, timestamp: new Date().toISOString(), ...meta }));
+  },
+  error: (message, meta = {}) => {
+    console.error(JSON.stringify({ level: 'error', message, timestamp: new Date().toISOString(), ...meta }));
+  },
+  warn: (message, meta = {}) => {
+    console.warn(JSON.stringify({ level: 'warn', message, timestamp: new Date().toISOString(), ...meta }));
+  },
+  debug: (message, meta = {}) => {
+    console.debug(JSON.stringify({ level: 'debug', message, timestamp: new Date().toISOString(), ...meta }));
+  }
+};
+
+module.exports = logger;

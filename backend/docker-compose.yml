@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  broker:
+    image: eclipse-mosquitto:latest
+    container_name: mqtt_broker
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - ./mosquitto/data:/mosquitto/data
+      - ./mosquitto/log:/mosquitto/log
+    restart: unless-stopped
+
+  app:
+    build: .
+    container_name: mqtt_backend
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - MQTT_URL=mqtt://broker:1883
+      - SMTP_HOST=${SMTP_HOST:-sandbox.smtp.mailtrap.io}
+      - SMTP_PORT=${SMTP_PORT:-2525}
+      - SMTP_USER=${SMTP_USER}
+      - SMTP_PASS=${SMTP_PASS}
+      - ALERT_EMAIL_FROM=${ALERT_EMAIL_FROM:-alerts@mqttmonitor.local}
+      - ALERT_EMAIL_TO=${ALERT_EMAIL_TO:-admin@example.com}
+    depends_on:
+      - broker
+    restart: unless-stopped
+
+  simulator:
+    build: .
+    container_name: mqtt_simulator
+    environment:
+      - MQTT_URL=mqtt://broker:1883
+    command: node simulator/simulate-devices.js
+    depends_on:
+      - broker
+    restart: unless-stopped
