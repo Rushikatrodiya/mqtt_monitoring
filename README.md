@@ -4,6 +4,19 @@ A real-time IoT sensor monitoring system built with **Node.js + Express** (backe
 
 ---
 
+## 🔗 Live Demo
+
+- **Dashboard:** https://monitoring.rushikatrodiya.in
+- **API:**
+  - https://api.rushikatrodiya.in/api/devices
+  - https://api.rushikatrodiya.in/api/devices/history
+
+> Hosted on an AWS EC2 instance. If the link is unresponsive, it may have been 
+> stopped to save resources — please reach out and I can bring it back up, or 
+> see the setup instructions below to run it locally.
+
+---
+
 ## 📁 Project Structure
 
 ```
