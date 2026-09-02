@@ -253,3 +253,9 @@ To add a new device, just add an entry here. The watchdog will automatically mon
 | Data Fetching | TanStack React Query |
 | Charts | Recharts |
 | Styling | Tailwind CSS v4 |
+
+
+## Email That I received in sandbox:
+
+<img width="599" height="776" alt="Screenshot_20260902_093950_Chrome" src="https://github.com/user-attachments/assets/9c352e06-d0b6-4f12-9e0f-772838ee1cb0" />
+
