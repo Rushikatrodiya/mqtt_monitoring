@@ -79,6 +79,23 @@ Frontend → GET /api/devices        → device.service.js → device.store.js +
          → GET /api/devices/history → history.store.js
 ```
 
+## 🏛️ Architecture & Key Technical Decisions
+
+This project follows a decoupled, real-time monitoring architecture designed for simplicity and performance:
+
+1. **Decoupled Ingestion & Monitoring:** 
+   - The MQTT ingestion layer (`mqtt.client.js` / `mqtt.handler.js`) is solely responsible for receiving messages and rapidly updating the latest timestamp in memory. 
+   - A completely separate Watchdog background process (`watchdog.service.js`) loops every 5 seconds to evaluate device freshness (`lastSeenAt` vs `expectedIntervalMs`), making the system highly resilient even under high message throughput.
+
+2. **In-Memory State Management:** 
+   - Instead of a traditional database, the backend uses a fast, transient Node.js `Map` (`device.store.js`) for storing the live device states, and a rolling array buffer (`history.store.js`) for the last 5 minutes of fleet health data. This avoids disk I/O bottlenecks and is perfectly suited for an ephemeral monitoring dashboard.
+
+3. **Intelligent Alerting:**
+   - The alerting layer (`alert.service.js`) implements a cooldown mechanism so that if a device repeatedly bounces between online and offline, or stays offline for hours, it doesn't spam the administrator's inbox.
+
+4. **Polling vs WebSockets:**
+   - The frontend uses short-polling via **TanStack React Query** rather than WebSockets. Since this is an L1 dashboard meant to aggregate states across potentially thousands of nodes, short-polling every few seconds significantly reduces server connection overhead while still providing near real-time feedback.
+
 ---
 
 ## 🚀 Getting Started
@@ -165,7 +182,7 @@ Dashboard available at `http://localhost:5173`.
 
 ---
 
-## 🔄 Reset Demo
+## 🔄 Restart
 
 ### Why does the Pressure Sensor go OFFLINE on its own?
 
@@ -178,7 +195,7 @@ This is **intentional**. The simulator (`simulate-devices.js`) is configured so 
 
 This simulates a real-world scenario where a device goes unresponsive mid-session. The watchdog detects the silence, marks it **OFFLINE**, and (if configured) sends an alert email — demonstrating the core monitoring behaviour of the system.
 
-### The "Reset Demo" button
+### The "Restart" button
 
 Because `sensor_003` permanently stops publishing, repeated live demos would always end with a stuck OFFLINE device. To avoid restarting Docker between demos, the dashboard includes a **Reset Demo** button in the top-right of the header.
 
